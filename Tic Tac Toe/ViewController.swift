@@ -74,6 +74,14 @@ class ViewController: UIViewController {
         labelArray[sender.view!.tag - 1].isEnabled = true
         
         determineWin()
+        
+        if(tieChecker(test: labelArrayArray)){
+            let alert = UIAlertController(title: "Tie", message: "No One Won", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { action in
+                self.reset(winner: 0)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func determineWin(){
@@ -85,6 +93,20 @@ class ViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func tieChecker(test: [[UILabel]]) -> Bool{
+        var enabled = true
+
+        for labelArray in test{
+            for label in labelArray{
+                if(label.isEnabled == false){
+                    enabled = false
+                }
+            }
+        }
+        
+        return enabled
     }
     
     func enabledChecker(test: [UILabel]) -> Bool{
@@ -136,7 +158,7 @@ class ViewController: UIViewController {
             playerOneScore+=1
             playerOneScoreLabel.text = String(playerOneScore)
         }
-        else{
+        else if(winner == 2){
             playerTwoScore+=1
             playerTwoScoreLabel.text = String(playerTwoScore)
         }
